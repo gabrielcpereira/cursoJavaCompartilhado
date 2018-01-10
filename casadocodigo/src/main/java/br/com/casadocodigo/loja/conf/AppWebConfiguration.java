@@ -11,7 +11,7 @@ import br.com.casadocodigo.loja.daos.ProdutoDAO;
 @EnableWebMvc
 @ComponentScan(basePackageClasses={HomeController.class, ProdutoDAO.class})
 public class AppWebConfiguration {
-
+ 
 	@Bean
 	public InternalResourceViewResolver internalResourceViewResolver(){
 		
