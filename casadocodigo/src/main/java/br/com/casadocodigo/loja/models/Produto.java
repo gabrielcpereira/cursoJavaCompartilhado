@@ -1,5 +1,6 @@
 package br.com.casadocodigo.loja.models;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Columns;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.transaction.annotation.Transactional;
 
 @Entity
@@ -20,19 +22,15 @@ public class Produto {
     
 	@Id 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID_PRODUTO")
 	private int id;
-	
-	@Column(name="DC_TITULO")
 	private String titulo;
-	@Column(name="DC_DESCRICAO")
     private String descricao;
-	@Column(name="NM_DESCRICAO")
-    private int paginas;
-    
+    private int paginas;   
     @ElementCollection
-    @Column(name="ID_PRECO")
-    private List<Preco> precos;
+    private List<Preco> precos;    
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Calendar dataLancamento;
+    private String sumarioPath;
     
     public int getId() {
 		return id;
@@ -64,11 +62,21 @@ public class Produto {
 	public void setPrecos(List<Preco> precos) {
 		this.precos = precos;
 	}
+	public Calendar getDataLancamento() {
+		return dataLancamento;
+	}
+	public void setDataLancamento(Calendar dataLancamento) {
+		this.dataLancamento = dataLancamento;
+	}
+	public String getSumarioPath() {
+		return sumarioPath;
+	}
+	public void setSumarioPath(String sumarioPath) {
+		this.sumarioPath = sumarioPath;
+	}
 	
 	@Override
 	public String toString() {
 	    return "Produto [titulo=" + titulo + ", descricao=" + descricao + ", paginas=" + paginas + "]";
 	}
-	
-
 }
