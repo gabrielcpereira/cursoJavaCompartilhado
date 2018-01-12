@@ -1,15 +1,12 @@
 package br.com.casadocodigo.loja.controllers;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.stream.Stream;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,6 +58,16 @@ public class ProdutosController {
     	modelAndView.addObject("produtos", produtoDao.listar());
     	
     	return modelAndView;
+    }
+    
+    @RequestMapping(value="detalhe/{id}", method=RequestMethod.GET)
+    public ModelAndView detalhesProduto(@PathVariable("id") int id) {    	
+    	Produto produto = produtoDao.find(id);
+    	
+    	ModelAndView mv = new ModelAndView("produtos/detalhe");
+    	mv.addObject("produto", produto);
+    	mv.addObject("tiposPreco", TipoPreco.values());
+		return mv;
     }
     
     @org.springframework.web.bind.annotation.InitBinder
