@@ -2,9 +2,7 @@ package br.com.casadocodigo.loja.models;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Table;
 
 @Embeddable
 public class Preco {
