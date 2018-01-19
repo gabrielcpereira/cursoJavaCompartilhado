@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -17,27 +18,10 @@
 </style>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="${ s:mvcUrl('HC#index').build() }">Casa do código</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		  <span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		    <ul class="navbar-nav mr-auto">
-		      <li class="nav-item">
-		        <a class="nav-link" href="${ s:mvcUrl('PC#listaProdutos').build() }">Lista Produto <span class="sr-only">(current)</span></a>
-		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link" href="${ s:mvcUrl('PC#form').build() }">Cadastro</a>
-		      </li>
-			</ul>			
-		    <form class="form-inline my-2 my-lg-0">
-				<a class="nav-link" href="${ s:mvcUrl('CCC#itens').build() }" >Carrinho (${carrinhoCompras.quantidade}) </a>
-		    </form>
-		</div>
-	</nav>
+	<%@ include file="/WEB-INF/view/cabecalho.jsp" %>
+	
 	<form:form action="${ s:mvcUrl('PC#gravar').build() }" cssClass="container" cssStyle="padding-top:20px;padding-bottom: 20px;" method="post" commandName="produto" enctype="multipart/form-data">
-		
+			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		    <div class="form-group">
 		        <label>Título</label> 
 		        <form:input class="form-control form-control-sm" path="titulo" />

@@ -3,6 +3,8 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix ="fmt" %>
     <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
+    <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
+    <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -32,22 +34,36 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		    <ul class="navbar-nav mr-auto">
-		      <li class="nav-item">
-		        <a class="nav-link" href="${ s:mvcUrl('PC#listaProdutos').build() }">Lista Produto <span class="sr-only">(current)</span></a>
-		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link" href="${ s:mvcUrl('PC#form').build() }">Cadastro</a>
-		      </li>
+			    <security:authorize access="isAuthenticated()">
+					<li class="nav-item">					
+					  <a class="nav-link" href="${produtos }">Lista Produto <span class="sr-only">(current)</span></a>
+					</li>
+				</security:authorize>
+				<security:authorize access="hasRole('ROLE_ADMIN')">
+					<li class="nav-item">
+					  <a class="nav-link" href="${produtos }/form">Cadastro</a>
+					</li>				
+				</security:authorize>
 			</ul>
-		    <form class="form-inline my-2 my-lg-0">
-				<a class="nav-link" href="${ s:mvcUrl('CCC#itens').build() }" >Carrinho (${carrinhoCompras.quantidade}) </a>
-		    </form>			
+			<security:authorize access="isAuthenticated()">
+			    <form class="form-inline my-2 my-lg-0">
+					<a class="nav-link" href="${ s:mvcUrl('CCC#itens').build() }" >Carrinho (${carrinhoCompras.quantidade}) </a>
+			    </form>
+				<ul class="nav navbar-nav navbar-right">
+					<li>
+						<a href="#">
+						    <security:authentication property="principal" var="usuario"/>
+							Usuário: ${usuario.username}
+						</a>
+					</li>
+				</ul>			    
+		    </security:authorize>		
 		</div>
 	</nav>
 	<div class="container">
-	    <form action='<c:url value="/carrinho/add" />' method="post" class="container">
-	    	
+	    <form:form servletRelativeAction="/carrinho/add" method="post" >	    	
 			<input type="hidden" name="idProduto" value="${produto.id }">
+    		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
 			<h2>${produto.titulo }</h2>
 			<div>
 				Descrição: 
@@ -82,7 +98,7 @@
 				</c:if>
 			</div>
 			<input type="submit" class="btn btn-primary" value="Adicionar" />
-		</form>
+		</form:form>
 	</div>
 </body>
 </html>

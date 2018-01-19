@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project 
+	xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.casadocodigo</groupId>
@@ -8,8 +10,9 @@
 	<packaging>war</packaging>
 	<build>
 		<finalName>casadocodigo</finalName>
-	</build>
-	<dependencies>
+	</build>   
+
+    <dependencies>		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -138,30 +141,30 @@
 		</dependency>
 		
 		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-taglibs</artifactId>
-		    <version>4.2.3.RELEASE</version>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>4.0.0.M2</version>
 		</dependency>
 		
 		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-web</artifactId>
-		    <version>4.2.3.RELEASE</version>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>4.0.0.M2</version>
 		</dependency>
-
 		
 		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-core</artifactId>
-		    <version>4.2.3.RELEASE</version>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>4.0.0.M2</version>
 		</dependency>
 	
 	</dependencies>	
+
 	<repositories>
 	    <repository>
 	        <id>spring-milestones</id>
 	        <name>Spring Milestones</name>
-	        <url>https://repo.spring.io/milestone/</url>
+	        <url>http://repo.spring.io/milestone/</url>
 	        <snapshots>
 	            <enabled>false</enabled>
 	        </snapshots>
