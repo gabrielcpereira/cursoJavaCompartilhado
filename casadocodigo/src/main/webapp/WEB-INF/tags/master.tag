@@ -9,7 +9,7 @@
 <head>
 	<meta http-equiv="Content-Type"  charset="UTF-8" />		
 	<title>
-		Casa do Código
+		<s:message code="master.field.casacodigo"></s:message>
 		<c:if test="${not empty titulo}">
 			- ${titulo }
 		</c:if>
