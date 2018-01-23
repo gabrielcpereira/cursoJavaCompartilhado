@@ -28,7 +28,7 @@ public class ProdutoDAO {
 
 	public List<Produto> listar(){
 		return manager.createQuery(
-				"select p from Produto p", Produto.class)
+				"select p from Produto p join fetch p.precos precos", Produto.class)
 				.getResultList();
 	}
 

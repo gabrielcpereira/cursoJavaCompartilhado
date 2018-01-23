@@ -45,7 +45,10 @@ public class CarrinhoComprasController {
 	}
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView itens(){
-	    return new ModelAndView("/carrinho/itens");
+
+//	        if(true) throw new RuntimeException("Excessão Genérica Acontecendo!!!!");
+
+	        return new ModelAndView("/carrinho/itens");
 	}
 	@RequestMapping(value = "/remover", method = RequestMethod.POST)
 	public ModelAndView remover(Integer idProduto, TipoPreco tipo, RedirectAttributes redirectAttributes) {		

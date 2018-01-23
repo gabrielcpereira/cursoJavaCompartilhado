@@ -1,5 +1,6 @@
 package br.com.casadocodigo.loja.controllers;
 
+import javax.persistence.NoResultException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -73,6 +75,11 @@ public class ProdutosController {
     	mv.addObject("produto", produto);
     	mv.addObject("tiposPreco", TipoPreco.values());
 		return mv;
+    }
+    
+    @ExceptionHandler(NoResultException.class)
+    public String trataDetalheNaoEcontrado(){
+        return "error";
     }
     
     @org.springframework.web.bind.annotation.InitBinder
