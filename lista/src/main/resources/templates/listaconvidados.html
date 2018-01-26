@@ -4,18 +4,34 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>ListaVIP</title>
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+
+$(document).ready(function(){
+	$("#btnBusca").click(function () {
+	     var nomeBusca = $("#nomeBusca").val();
+	     if (nomeBusca != ""){
+	     	window.location.href = "/listaconvidados?" + $.param({nomeBusca: nomeBusca});
+	     }
+	});
+});
+
+function excluir(id){
+	$.post("/excluirconvidado", { id:id });
+}
+
+</script>
 </head>
 <body>
 	<div class="container">
-
-		<form class="form-inline" method="get" action="listaconvidadosbusca">
-			<div class="form-group mb-2">
-				<label class="sr-only">Nome</label> <input
-					type="text" class="form-control-plaintext"
-					id="nomeBusca">
-			</div>
-			<button type="submit" class="btn btn-primary mb-2">Busca</button>
-		</form>
+		
+		<div class="form-group mb-2" style="padding-top: 25px;">
+			<label class="sr-only">Nome</label> <input
+				type="text" class="form-control-plaintext" 
+				id="nomeBusca">
+				<button id="btnBusca" class="btn btn-primary mb-2" >Busca</button>
+		</div>
 		
 		<!-- GRID DE CONVIDADOS -->
 		<div id="listaDeConvidados" style="margin-top: 50px;">
@@ -26,12 +42,19 @@
 						<th>Nome</th>
 						<th>Email</th>
 						<th>Telefone</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tr th:each="convidado : ${convidados}">
 					<td><span th:text="${convidado.nome}"></span></td>
 					<td><span th:text="${convidado.email}"></span></td>
 					<td><span th:text="${convidado.telefone}"></span></td>
+					<td>
+						<form action="excluirconvidado" method="post">
+							<input type="hidden" name="id" th:value="${convidado.id}"  />
+							<button type="submit" class="btn btn-danger">Excluir</button>
+						</form>
+					</td>
 				</tr>
 			</table>
 		</div>
@@ -57,8 +80,6 @@
 		</form>
 	</div>
 
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 
 </body>
