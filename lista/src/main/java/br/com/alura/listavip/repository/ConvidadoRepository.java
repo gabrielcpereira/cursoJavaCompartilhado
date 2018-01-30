@@ -9,6 +9,7 @@ import br.com.alura.listavip.model.Convidado;
 
 @Repository
 public interface ConvidadoRepository extends CrudRepository<Convidado, Long> {
+	List<Convidado> findAll();
 	List<Convidado> findByNome(String nome);
 	List<Convidado> findByNomeEndingWith(String nome);
 	List<Convidado> findByNomeStartingWith(String nome);

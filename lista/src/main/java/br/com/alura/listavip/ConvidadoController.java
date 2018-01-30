@@ -10,58 +10,59 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.alura.lista.email.envioEmailLista.EmailService;
+import br.com.alura.lista.email.envioEmailLista.EnvioEmailListaApplication;
 import br.com.alura.listavip.model.Convidado;
 import br.com.alura.listavip.repository.ConvidadoRepository;
+import br.com.alura.listavip.service.ConvidadoService;
 
 @Controller
 public class ConvidadoController {
-		
-	@Autowired
-	private ConvidadoRepository repository;
-		
+	
+	@Autowired	
+	private ConvidadoService convidadoService;
 	@Autowired
 	private HttpServletRequest request;
 	
-	private final String LISTA_CONVIDADOS = "listaconvidados";
-	private final String EXCLUIR_CONVIDADO = "excluirconvidado";
-	private final String SALVAR = "salvar";
+	private final String indexAction = "index";
+	private final String listaConvidadosAction = "listaconvidados";
+	private final String excluirConvidadoAction = "excluirconvidado";
+	private final String salvarAction = "salvar";
 	
 	@RequestMapping("/")
 	public String index() {
-		return "index";
+		return indexAction;
 	}
 	
-	@RequestMapping(value = LISTA_CONVIDADOS, method = RequestMethod.GET)
+	@RequestMapping(value = listaConvidadosAction, method = RequestMethod.GET)
 	public String listaConvidados(Model model) {
-		Iterable<Convidado> convidados;
-		
+		Iterable<Convidado> convidados;		
 		String nomeBusca = request.getParameter("nomeBusca");
 		if (nomeBusca != null & nomeBusca != "") {
-			convidados = repository.findByNomeStartingWith(nomeBusca);
+			convidados = convidadoService.buscarConvidadoIniciandoPorNome(nomeBusca);
 			model.addAttribute("nomeBusca", nomeBusca);
 		}else {
-			convidados = repository.findAll();
+			convidados = convidadoService.buscarTodosConvidados();
 		}
 		
-		model.addAttribute("convidados", convidados);
-		
-		return LISTA_CONVIDADOS;
+		model.addAttribute("convidados", convidados);		
+		return listaConvidadosAction;
 	}
 	
-	@RequestMapping(value = SALVAR, method = RequestMethod.POST)
+	@RequestMapping(value = salvarAction, method = RequestMethod.POST)
 	public ModelAndView salvar(@RequestParam(name="nome") String nome, @RequestParam(name="email") String email, @RequestParam(name="telefone") String telefone, 
 			Model model) {		
-		Convidado novoConvidado = new Convidado(nome, email, telefone);
-		repository.save(novoConvidado);
+		convidadoService.salvar(new Convidado(nome, email, telefone));		
+		(new EmailService()).enviar(nome, email);
 		
-		return new ModelAndView("redirect:/" + LISTA_CONVIDADOS);
+		return new ModelAndView("redirect:/" + listaConvidadosAction);
 	}
 	
-	@RequestMapping(value = EXCLUIR_CONVIDADO, method = RequestMethod.POST)
+	@RequestMapping(value = excluirConvidadoAction, method = RequestMethod.POST)
 	public ModelAndView excluirConvidado(@RequestParam(name="id") long id) {		
-		repository.delete(id);
+		convidadoService.excluir(id);
 		
-		return new ModelAndView("redirect:/" + LISTA_CONVIDADOS);
+		return new ModelAndView("redirect:/" + listaConvidadosAction);
 	}
 
 }

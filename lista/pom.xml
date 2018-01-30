@@ -8,8 +8,26 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>			
 			<version>1.5.7.RELEASE</version>
     	</dependency>
+    	
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-actuator</artifactId>
+		    <version>1.5.7.RELEASE</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jetty</artifactId>
+			<version>1.5.7.RELEASE</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
@@ -34,7 +52,29 @@
 		    <artifactId>spring-boot-devtools</artifactId>
 		    <version>1.5.7.RELEASE</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>br.com.alura.lista.email</groupId>
+			<artifactId>envioEmailLista</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 	</dependencies>
-
+	<build>
+	    <plugins>
+	        <plugin>
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-maven-plugin</artifactId>
+	            <version>1.5.9.RELEASE</version>
+	            <executions>
+	                <execution>
+	                    <goals>
+	                        <goal>build-info</goal>
+                            <goal>repackage</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	        </plugin>
+	    </plugins>
+	</build>
 </project>
