@@ -1,7 +1,5 @@
 <%@include file="/WEB-INF/views/cabecalho.jsp"%>
 
-<script src='https://www.google.com/recaptcha/api.js'></script>
-
 <div class="container" style="margin-top: 10%">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">

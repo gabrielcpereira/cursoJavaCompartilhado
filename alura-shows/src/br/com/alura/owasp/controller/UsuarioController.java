@@ -19,11 +19,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.alura.owasp.dao.UsuarioDao;
 import br.com.alura.owasp.model.Role;
 import br.com.alura.owasp.model.Usuario;
+import br.com.alura.owasp.retrofit.GoogleWebClient;
 
 @Controller
 @Transactional
 public class UsuarioController {
 
+	@Autowired
+	private GoogleWebClient cliente;
+	
 	@Autowired
 	private UsuarioDao dao;
 
@@ -56,18 +60,20 @@ public class UsuarioController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("usuario") Usuario usuario, RedirectAttributes redirect, Model model,
 			HttpSession session, HttpServletRequest request) {
-	    String recaptcha = request.getParameter("g-recaptcha-response");
+	    String recaptcha = request.getParameter("g-recaptcha-response");	    
+	    Usuario usuarioRetornado = null;
+	    if (!cliente.verifica(recaptcha)) {
+	    	redirect.addFlashAttribute("mensagem", "Por favor, comprove que você é humano!");
+	    	return "redirect:/usuario";
+	    }
+	    usuarioRetornado = dao.procuraUsuario(usuario);
 	    
-		Usuario usuarioRetornado = dao.procuraUsuario(usuario);
-		model.addAttribute("usuario", usuarioRetornado);
 		if (usuarioRetornado == null) {
 			redirect.addFlashAttribute("mensagem", "Usuário não encontrado");
 			return "redirect:/usuario";
 		}
-
-		session.setAttribute("usuario", usuarioRetornado);
+		model.addAttribute("usuario", usuarioRetornado);
 		return "usuarioLogado";
-
 	}
 
 	@RequestMapping("/logout")
